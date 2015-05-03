@@ -6,7 +6,7 @@ const
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
   session = require('express-session'),
-  RedisStore = require('connect-redis')(session),
+  //RedisStore = require('connect-redis')(session),
   fs = require('fs'),
   path = require('path'),
   app = express();
@@ -23,8 +23,7 @@ var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 
 app.use(session({ 
-  secret: '5492fc184305f70f8e8849afa8e1c40c',
-  store: new RedisStore(),
+  secret: '5492fc184305f70f8e8849afa8e1c40c'
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -80,36 +79,16 @@ app.use(express.static(__dirname + '/static_html'));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
-var roumors = {"romor 1", "roumor2"};
+var roumors = ["romor 1", "roumor2"];
 
 app.post('/roumors', authed, function(req, res) {
-  var todo = {_id: roumors.length, name: req.body.todo};
-  roumors.push(todo);
+  var roumor = req.body.roumor;
+  roumors.push(roumor);
   //res.status(200).json({'todo': todo});
-  console.log('New Roumor saved: ' + JSON.stringify(todo));
-  res.redirect('/');
+  console.log('New Roumor saved: ' + JSON.stringify(roumor));
+  res.redirect('/roumors');
 });
 
-
-app.get('/destroy/:id', authed, function(req, res){
-  var id = req.params.id;
-  var found = false;
-  for(var i=0; i<roumors.length; i++){
-    if(roumors[i]._id == id){
-      found = true;
-      console.log('Delete id ' + i);
-      break;
-    }
-  }
-  if(found){
-    roumors.splice(i, 1);
-    console.log('Deleted id ' + i);
-    res.redirect('/');
-  }else{
-    console.log('Item ' + i + ' not found.');
-    res.redirect(204, '/');
-  }
-});
 
 app.get('/roumors', authed, function(req, res){
     res.render("roumors", { roumors: roumors });

@@ -1,13 +1,14 @@
 {
-  "name": "todo_server",
-  "main": "todo_server.js",
+  "name": "panodol_server",
+  "main": "panodol_server.js",
   "version": "0.2.0",
   "authors": [
-    ""
+    "Folletta, Tell"
   ],
-  "description": "todo server demo using node, redis and bower",
+  "description": "Panodol WebApp",
   "license": "MIT",
   "dependencies": {
-    "jquery": "~2.1.1"
+    "jquery": "~2.1.1",
+    "bootstrap": "~3.3.4"
   }
 }
