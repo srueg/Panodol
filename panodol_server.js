@@ -91,7 +91,11 @@ app.post('/roumors', authed, function(req, res) {
 
 
 app.get('/roumors', authed, function(req, res){
-    res.render("roumors", { roumors: roumors });
+    res.render("roumors", { title: 'Grüchtli-Wand', roumors: roumors });
+});
+
+app.get('/userlist', authed, function(req, res){
+    res.render('userlist', { title: 'TN-Liste' });
 });
 
 app.get('/', authed, function(req, res) {
