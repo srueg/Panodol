@@ -103,7 +103,7 @@ app.get('/', authed, function(req, res) {
 });
 
 // Spawn Server
-app.listen(8080, function(){
+app.listen(80, function(){
   console.log("ready captain.");
 });
 
