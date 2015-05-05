@@ -1,12 +1,14 @@
 <h2>{{title}}</h2>
 <div>
 <form action="/roumors" method="post">
-  Neues Gerücht <input type="text" name="roumor" autofocus>
+  <p>Neues Gerücht</p> 
+  <textarea required name="roumor" autofocus></textarea>
+  <br />
   <button id="save_roumor">Save</button>
 </form>
 <ul style="list-style:none;">
 	{{#roumors}}
-		<li>{{this}}</li>
+		<li>{{text}} <br /> <em>{{time}}</em></li>
 	{{/roumors}}
 </ul>
 </div>

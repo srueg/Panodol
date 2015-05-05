@@ -6,11 +6,44 @@ const
   bodyParser = require('body-parser'),
   morgan = require('morgan'),
   session = require('express-session'),
-  //RedisStore = require('connect-redis')(session),
+  RedisStore = require('connect-redis')(session),
   fs = require('fs'),
   path = require('path'),
+  cradle = require('cradle'),
   app = express();
 
+var c = new(cradle.Connection)('http://localhost', 5984, {
+      cache: false,
+      raw: false,
+      forceSave: true
+  });
+
+// create roumors DB
+var roumorsDb = c.database('roumors');
+//roumorsDb.destroy();
+roumorsDb.exists(function (err, exists) {
+  if (err) {
+    console.log('error', err);
+  } else if (exists) {
+    console.log('Database found.');
+  } else {
+    console.log('Database does not exists, create now.');
+    roumorsDb.create();
+  }
+});
+
+// create sleep DB
+var sleepDb = c.database('sleep');
+sleepDb.exists(function (err, exists) {
+  if (err) {
+    console.log('error', err);
+  } else if (exists) {
+    console.log('Database found.');
+  } else {
+    console.log('Database does not exists, create now.');
+    sleepDb.create();
+  }
+});
 
 app.use(morgan('dev'));
 
@@ -23,7 +56,8 @@ var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 
 app.use(session({ 
-  secret: '5492fc184305f70f8e8849afa8e1c40c'
+  secret: '5492fc184305f70f8e8849afa8e1c40c',
+  store: new RedisStore()
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -69,6 +103,7 @@ app.get('/login',
 );
 // END AUTHENTICATION
 
+// Logout function
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/login.html');
@@ -79,31 +114,50 @@ app.use(express.static(__dirname + '/static_html'));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
-var roumors = ["romor 1", "roumor2"];
-
+// Save new roumor
 app.post('/roumors', authed, function(req, res) {
-  var roumor = req.body.roumor;
-  roumors.push(roumor);
-  //res.status(200).json({'todo': todo});
-  console.log('New Roumor saved: ' + JSON.stringify(roumor));
-  res.redirect('/roumors');
+  var roumor = {text: req.body.roumor, time: new Date()};
+  roumorsDb.save(roumor, function (err, result) {
+    if(err) console.log('error', err);
+    res.redirect('/roumors');
+    console.log('New Roumor saved: ' + JSON.stringify(roumor));
+  });
 });
 
-
+// Show all roumors
 app.get('/roumors', authed, function(req, res){
-    res.render("roumors", { title: 'Grüchtli-Wand', roumors: roumors });
+  roumorsDb.all(function (err, docs) {
+    if(err) console.log('error', err);
+    var roumors = [];
+    var i = 0;
+    if(docs.length == 0) res.render("roumors", { title: 'Grüchtli-Wand', roumors: roumors });
+    docs.forEach(function(element, index){
+      roumorsDb.get(element, function (err2, doc) {
+        if(err2) console.log('error', err2);
+        roumors.push(doc)
+        if(i == docs.length-1){
+          roumors.sort(function(a, b){
+            return new Date(b.time) - new Date(a.time);
+          });
+          res.render("roumors", { title: 'Grüchtli-Wand', roumors: roumors });
+        }
+        i++;
+      });
+    });
+  });
 });
 
+// Show TN-List
 app.get('/userlist', authed, function(req, res){
     res.render('userlist', { title: 'TN-Liste' });
 });
 
+// Show Home
 app.get('/', authed, function(req, res) {
   res.render("home");
 });
 
 // Spawn Server
-app.listen(80, function(){
+var server = app.listen(80, function() {
   console.log("ready captain.");
 });
-
