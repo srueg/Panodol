@@ -6,7 +6,8 @@
 2. Install Redis (brew install redis)
 2. clone Git-Repo
 3. $ npm install
-4. $ npm install -g bower
+4. $ sudo npm install -g bower
+5. $ sudo npm install -g nodemon
 5. $ bower install
 
 ## Run
