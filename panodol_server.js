@@ -113,6 +113,8 @@ app.get('/logout', function(req, res){
 
 app.use(express.static(__dirname + '/bower_components'));
 app.use(express.static(__dirname + '/static_html'));
+app.use('/images', authed);
+app.use('/images', express.static(__dirname + '/images'));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
