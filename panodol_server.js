@@ -76,7 +76,9 @@ passport.deserializeUser(function(user, done) {
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    if(username == "Pano" && password == "Panodol1234") {
+    var user = process.env.PANODOL_USER || 'Pano';
+    var pw = process.env.PANODOL_PW || 'Panodol1234';
+    if(username === user && password === pw) {
       var user = new User(username);
       console.log("authenticated");
       return done(null, user);
