@@ -1,14 +1,17 @@
 <h2>{{title}}</h2>
 <div>
-<form action="/roumors" method="post">
-  <p>Neues Gerücht</p> 
-  <textarea required name="roumor" autofocus></textarea>
-  <br />
-  <button id="save_roumor">Save</button>
-</form>
-<ul style="list-style:none;">
-	{{#roumors}}
-		<li>{{text}} <br /> <em>{{time}}</em></li>
-	{{/roumors}}
-</ul>
+	<form action="/roumors" method="post">
+	  <p>Neues Gerücht</p> 
+	  <textarea required name="roumor" autofocus style="width: 100%"></textarea>
+	  <br />
+	  <button class="btn btn-primary" id="save_roumor">Save</button>
+	</form>
+</div>
+<hr />
+<div>
+	<ul style="list-style:none;">
+		{{#roumors}}
+			<li>{{text}} <br /> <em>{{time}}</em></li>
+		{{/roumors}}
+	</ul>
 </div>
