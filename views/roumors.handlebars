@@ -9,9 +9,12 @@
 </div>
 <hr />
 <div>
-	<ul style="list-style:none;">
 		{{#roumors}}
-			<li>{{text}} <br /> <em>{{time}}</em></li>
+		<div class="panel panel-default">
+		  <div class="panel-body">
+		    {{text}}
+		  </div>
+		  <div class="panel-footer">{{time}}</div>
+		</div>
 		{{/roumors}}
-	</ul>
 </div>

@@ -10,6 +10,7 @@ const
   fs = require('fs'),
   path = require('path'),
   cradle = require('cradle'),
+  moment = require('moment'),
   app = express();
 
 var c = new(cradle.Connection)('http://localhost', 5984, {
@@ -120,7 +121,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Save new roumor
 app.post('/roumors', authed, function(req, res) {
-  var roumor = {text: req.body.roumor, time: new Date()};
+  var roumor = {text: req.body.roumor, time: moment().format("DD.MM.YYYY, HH:mm:ss")};
   roumorsDb.save(roumor, function (err, result) {
     if(err) console.log('error', err);
     res.redirect('/roumors');
