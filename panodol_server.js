@@ -152,6 +152,22 @@ app.get('/roumors', authed, function(req, res){
   });
 });
 
+// Save new sleep
+app.post('/sleepInput', authed, function(req, res) {
+  var sleep = {name: req.body.pfadiname, 
+              sleep: req.body.sleep,
+              dream: req.body.dream,
+              environment: req.body.environment,
+              sleepLength: req.body.sleep_lenght,
+              sleptWith: req.body.slept_with,
+              night: req.body.night };
+  sleepDb.save(sleep, function (err, result) {
+    if(err) console.log('error', err);
+    res.redirect('/sleepOverview');
+    console.log('New sleep saved: ' + JSON.stringify(sleep));
+  });
+});
+
 // Show TN-List
 app.get('/userlist', authed, function(req, res){
     res.render('userlist', { title: 'TN-Liste' });
@@ -159,7 +175,7 @@ app.get('/userlist', authed, function(req, res){
 
 // Show sleep input
 app.get('/sleepInput', authed, function(req, res){
-    res.render('sleepInput', { title: 'Schlaf' });
+    res.render('sleepInput', { title: 'Schlaf', night: req.query.night });
 });
 
 // Show sleep input
