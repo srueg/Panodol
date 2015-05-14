@@ -35,6 +35,7 @@ roumorsDb.exists(function (err, exists) {
 
 // create sleep DB
 var sleepDb = c.database('sleep');
+//sleepDb.destroy();
 sleepDb.exists(function (err, exists) {
   if (err) {
     console.log('error', err);
@@ -158,7 +159,7 @@ app.post('/sleepInput', authed, function(req, res) {
               sleep: req.body.sleep,
               dream: req.body.dream,
               environment: req.body.environment,
-              sleepLength: req.body.sleep_lenght,
+              sleepLength: req.body.sleep_length,
               sleptWith: req.body.slept_with,
               night: req.body.night };
   sleepDb.save(sleep, function (err, result) {
@@ -186,26 +187,77 @@ app.get('/sleepOverview', authed, function(req, res){
 // Show sleep charts
 app.get('/sleepAnalysis', authed, function(req, res){
   var id = req.query.night;
-  sleepDb.get(id, function(err, doc){
-    var d = JSON.stringify({
-      labels: ["", "", "", "", "", "", "", "", "", "", "", ""],
-      datasets: [
-          {
-              label: "{{data.date}}",
-              fillColor: "rgba(220,220,220,0.5)",
-              strokeColor: "rgba(220,220,220,0.8)",
-              highlightFill: "rgba(220,220,220,0.75)",
-              highlightStroke: "rgba(220,220,220,1)",
-              data: [3, 1, 4, 4, 3, 1, 2, 3, 2, 2, 1, 4]
+
+  var sleep = { labels: [],
+                  datasets: [ {
+                      label: "Schlaf",
+                      fillColor: "rgba(220,220,220,0.5)",
+                      strokeColor: "rgba(220,220,220,0.8)",
+                      highlightFill: "rgba(220,220,220,0.75)",
+                      highlightStroke: "rgba(220,220,220,1)",
+                      data: []
+                  } ] 
+                };
+  var dream = { labels: [],
+                  datasets: [ {
+                      label: "Traum",
+                      fillColor: "rgba(220,220,220,0.5)",
+                      strokeColor: "rgba(220,220,220,0.8)",
+                      highlightFill: "rgba(220,220,220,0.75)",
+                      highlightStroke: "rgba(220,220,220,1)",
+                      data: []
+                  } ] 
+                };
+  var environment = { labels: [],
+                  datasets: [ {
+                      label: "Umgebung",
+                      fillColor: "rgba(220,220,220,0.5)",
+                      strokeColor: "rgba(220,220,220,0.8)",
+                      highlightFill: "rgba(220,220,220,0.75)",
+                      highlightStroke: "rgba(220,220,220,1)",
+                      data: []
+                  } ] 
+                };
+  var length = { labels: [],
+                  datasets: [ {
+                      label: "Länge",
+                      fillColor: "rgba(220,220,220,0.5)",
+                      strokeColor: "rgba(220,220,220,0.8)",
+                      highlightFill: "rgba(220,220,220,0.75)",
+                      highlightStroke: "rgba(220,220,220,1)",
+                      data: []
+                  } ] 
+                };
+  
+  sleepDb.all(function (err, docs) {
+      if(err) console.log('error', err);
+      var i = 0;
+      if(docs.length == 0) res.render('sleepAnalysis', { data: { title: 'Schlaf-Analyse', sleepData: {} } } );
+      docs.forEach(function(element, index){
+        sleepDb.get(element, function (err2, doc) {
+          if(err2) console.log('error', err2);
+          if(doc.night === id){
+            sleep.labels.push(doc.name);
+            dream.labels.push(doc.name);
+            environment.labels.push(doc.name);
+            length.labels.push(doc.name);
+
+            sleep.datasets[0].data.push(doc.sleep);
+            dream.datasets[0].data.push(doc.dream);
+            environment.datasets[0].data.push(doc.environment);
+            length.datasets[0].data.push(doc.sleepLength);
           }
-      ]
+          if(i == docs.length-1){
+            var s = JSON.stringify(sleep);
+            var d = JSON.stringify(dream);
+            var e = JSON.stringify(environment);
+            var l = JSON.stringify(length);
+            res.render('sleepAnalysis', { data: { title: 'Schlaf-Analyse', sleepData: s, dreamData: d, environmentData: e, lengthData: l } } );
+          }
+          i++;
+        });
+      });
     });
-    res.render('sleepAnalysis', { data: { title: 'Schlaf-Analyse', sleepData: d } } );
-  });
-});
-
-app.get('/sleepData', authed, function(req, res){
-
 });
 
 // Show Home

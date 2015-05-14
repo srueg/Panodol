@@ -28,9 +28,9 @@ $(document).ready(function() {
 	var options = {};
 
 	new Chart(sleepChart).Bar({{{data.sleepData}}}, options);
-	new Chart(dreamChart).Bar({{{data.sleepData}}}, options);
-	new Chart(environmentChart).Bar({{{data.sleepData}}}, options);
-	new Chart(lengthChart).Bar({{{data.sleepData}}}, options);
+	new Chart(dreamChart).Bar({{{data.dreamData}}}, options);
+	new Chart(environmentChart).Bar({{{data.environmentData}}}, options);
+	new Chart(lengthChart).Bar({{{data.lengthData}}}, options);
 
 	});
 </script>
