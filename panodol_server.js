@@ -157,6 +157,16 @@ app.get('/userlist', authed, function(req, res){
     res.render('userlist', { title: 'TN-Liste' });
 });
 
+// Show sleep input
+app.get('/sleepInput', authed, function(req, res){
+    res.render('sleepInput', { title: 'Schlaf' });
+});
+
+// Show sleep input
+app.get('/sleepOverview', authed, function(req, res){
+    res.render('sleepOverview', { title: 'Schlaf Übersicht' });
+});
+
 // Show Home
 app.get('/', authed, function(req, res) {
   res.render("home");
