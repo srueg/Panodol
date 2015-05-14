@@ -161,6 +161,19 @@ app.post('/sleepInput', authed, function(req, res) {
               sleepLength: req.body.sleep_lenght,
               sleptWith: req.body.slept_with,
               night: req.body.night };
+  var sleptWith = req.body.slept_with;
+  if (sleptWith != '') {
+    var text = req.body.pfadiname + ' war mit ' + sleptWith + ' im Schlafsack.';
+    var roumor = {
+      text: text, 
+      time: moment().format("DD.MM.YYYY, HH:mm:ss")
+    };
+    roumorsDb.save(roumor, function (err, result) {
+      if(err) console.log('error', err);
+      console.log('New Roumor saved: ' + JSON.stringify(roumor));
+    });
+
+  }
   sleepDb.save(sleep, function (err, result) {
     if(err) console.log('error', err);
     res.redirect('/sleepOverview');
