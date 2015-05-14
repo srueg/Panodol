@@ -56,7 +56,7 @@ app.set('view engine', 'handlebars');
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 
-app.use(session({ 
+app.use(session({
   secret: '5492fc184305f70f8e8849afa8e1c40c',
   store: new RedisStore()
 }));
@@ -181,6 +181,31 @@ app.get('/sleepInput', authed, function(req, res){
 // Show sleep input
 app.get('/sleepOverview', authed, function(req, res){
     res.render('sleepOverview', { title: 'Schlaf Übersicht' });
+});
+
+// Show sleep charts
+app.get('/sleepAnalysis', authed, function(req, res){
+  var id = req.query.night;
+  sleepDb.get(id, function(err, doc){
+    var d = JSON.stringify({
+      labels: ["", "", "", "", "", "", "", "", "", "", "", ""],
+      datasets: [
+          {
+              label: "{{data.date}}",
+              fillColor: "rgba(220,220,220,0.5)",
+              strokeColor: "rgba(220,220,220,0.8)",
+              highlightFill: "rgba(220,220,220,0.75)",
+              highlightStroke: "rgba(220,220,220,1)",
+              data: [3, 1, 4, 4, 3, 1, 2, 3, 2, 2, 1, 4]
+          }
+      ]
+    });
+    res.render('sleepAnalysis', { data: { title: 'Schlaf-Analyse', sleepData: d } } );
+  });
+});
+
+app.get('/sleepData', authed, function(req, res){
+
 });
 
 // Show Home

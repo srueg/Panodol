@@ -1,0 +1,39 @@
+<h2>{{data.title}}</h2>
+
+<h3>Schlaf</h3>
+<canvas id="sleepChart" width="400" height="200"></canvas>
+
+<h3>Traum</h3>
+<canvas id="dreamChart" width="400" height="200"></canvas>
+
+<h3>Umfeld</h3>
+<canvas id="environmentChart" width="400" height="200"></canvas>
+
+<h3>Länge</h3>
+<canvas id="lengthChart" width="400" height="200"></canvas>
+
+<script>
+$(document).ready(function() {
+
+	Chart.defaults.global.responsive = true;
+
+	var sleepChart = $("#sleepChart").get(0).getContext("2d");
+	var dreamChart = $("#dreamChart").get(0).getContext("2d");
+	var environmentChart = $("#environmentChart").get(0).getContext("2d");
+	var lengthChart = $("#lengthChart").get(0).getContext("2d");
+
+	// Sleep Chart
+	// console.log(JSON.stringify('{{{data}}}'));
+	
+	var options = {};
+
+	new Chart(sleepChart).Bar({{{data.sleepData}}}, options);
+	new Chart(dreamChart).Bar({{{data.sleepData}}}, options);
+	new Chart(environmentChart).Bar({{{data.sleepData}}}, options);
+	new Chart(lengthChart).Bar({{{data.sleepData}}}, options);
+
+	});
+</script>
+
+
+<script src="Chart.js/Chart.min.js"></script>
