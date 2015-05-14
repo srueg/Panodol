@@ -1,14 +1,17 @@
 <h2>{{title}}</h2>
 <div>
-	<form action="/sleepInput" method="post" class="form-horizontal">
+	<form action="/sleepInput" method="post">
 	  <p>Nacht {{night}}</p> 
 	  <div class="form-group">
-	  <label for="pfadiname" class="col-sm-2 control-label">Name</label>
-	  <div class="col-sm-10">
-	  	<input type="text" name="pfadiname" id="pfadiname" required autofocus />
-	  </div>
+		  <label for="pfadiname" class="col-sm-2 control-label">Name</label>
+		  <div class="col-sm-10">
+		  	<input type="text" name="pfadiname" class="form-control" id="pfadiname" required autofocus />
+		  </div>
 	</div>
-	  Schlaf: <div class="btn-group" data-toggle="buttons">
+
+	<div class="form-group">
+		<label for="sleep1" class="col-sm-2 control-label">Schlaf</label>
+		  	<div class="btn-group" data-toggle="buttons">
                 <label class="btn btn-default">
                     <input type="radio" id="sleep1" name="sleep" value="1" /> 1
                 </label> 
@@ -22,8 +25,11 @@
                     <input type="radio" id="sleep4" name="sleep" value="4" /> 4
                 </label> 
             </div>
-            <br />
-	  Traum: <div class="btn-group" data-toggle="buttons">
+	</div>
+
+	<div class="form-group">
+		<label for="dream1" class="col-sm-2 control-label">Traum</label>
+		<div class="btn-group" data-toggle="buttons">
                 <label class="btn btn-default">
                     <input type="radio" id="dream1" name="dream" value="1" /> 1
                 </label> 
@@ -37,9 +43,11 @@
                     <input type="radio" id="dream4" name="dream" value="4" /> 4
                 </label> 
             </div>
+	</div>
 
-            <br />
-	  Umfeld: <div class="btn-group" data-toggle="buttons">
+	<div class="form-group">
+		<label for="" class="col-sm-2 control-label">Unmfeld</label>
+		  <div class="btn-group" data-toggle="buttons">
                 <label class="btn btn-default">
                     <input type="radio" id="q156" name="environment" value="1" /> 1
                 </label> 
@@ -53,12 +61,25 @@
                     <input type="radio" id="q159" name="environment" value="4" /> 4
                 </label> 
             </div>
-            <br />
-      Länge: <input type="number" name="sleep_length" max="24" min="1"><br />
-      Beischläfer: <input type="text" name="slept_with" />
+	</div>
+
+	<div class="form-group">
+		<label for="sleep_length" class="col-sm-2 control-label">Länge</label>
+		<input type="number" name="sleep_length" max="24" min="1">
+	</div>
+
+	<div class="form-group">
+		<label for="slept_with" class="col-sm-2 control-label">Beischläfer</label>
+		<input type="text" name="slept_with" />
+	</div>
+
       <input type="hidden" name="night" value="{{night}}"/>
-            <br />
-	  <button class="btn btn-primary" id="save_roumor">Save</button>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+         <button class="btn btn-primary" id="save_roumor">Save</button>
+        </div>
+    </div>
+	  
 	</form>
 </div>
 <hr />
