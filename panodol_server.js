@@ -143,7 +143,7 @@ app.get('/roumors', authed, function(req, res){
         roumors.push(doc)
         if(i == docs.length-1){
           roumors.sort(function(a, b){
-            return new Date(b.time) - new Date(a.time);
+            return moment(a.time).diff(moment(b.time));
           });
           res.render("roumors", { title: 'Grüchtli-Wand', roumors: roumors });
         }
