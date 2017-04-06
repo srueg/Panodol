@@ -281,6 +281,6 @@ app.get('/', authed, function(req, res) {
 });
 
 // Spawn Server
-var server = app.listen(80, function() {
+var server = app.listen(8080, function() {
   console.log("ready captain.");
 });
