@@ -5,6 +5,7 @@
   "author": "Folletta, Tell",
   "dependencies": {
     "body-parser": "^1.9.2",
+    "bower": "^1.8.0",
     "connect-redis": "^2.1.0",
     "cradle": "^0.6.9",
     "express": "^4.10.2",
