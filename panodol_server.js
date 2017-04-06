@@ -13,7 +13,7 @@ const
   moment = require('moment'),
   app = express();
 
-var c = new(cradle.Connection)('http://localhost', 5984, {
+var c = new(cradle.Connection)('http://couchdb', 5984, {
       cache: false,
       raw: false,
       forceSave: true
@@ -59,7 +59,7 @@ var passport = require('passport')
 
 app.use(session({
   secret: '5492fc184305f70f8e8849afa8e1c40c',
-  store: new RedisStore()
+  store: new RedisStore({host: 'redis'})
 }));
 app.use(passport.initialize());
 app.use(passport.session());
