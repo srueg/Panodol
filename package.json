@@ -17,7 +17,7 @@
     "passport-local": "^1.0.0"
   },
   "scripts": {
-    "start": "sudo nodemon --harmony ./panodol_server.js"
+    "start": "node --harmony ./panodol_server.js"
   },
   "main": "todo_server.js",
   "devDependencies": {},
