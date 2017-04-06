@@ -17,6 +17,7 @@
     "passport-local": "^1.0.0"
   },
   "scripts": {
+    "postinstall": "bower install",
     "start": "node --harmony ./panodol_server.js"
   },
   "main": "todo_server.js",
