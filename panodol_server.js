@@ -59,7 +59,9 @@ var passport = require('passport')
 
 app.use(session({
   secret: '5492fc184305f70f8e8849afa8e1c40c',
-  store: new RedisStore({host: 'redis'})
+  store: new RedisStore({ host: 'redis' }),
+  saveUninitialized: false,
+  resave: false
 }));
 app.use(passport.initialize());
 app.use(passport.session());
